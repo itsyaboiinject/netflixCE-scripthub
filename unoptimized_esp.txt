@@ -1,0 +1,21 @@
+local players={}
+players.PlayerAdded:Connect(function(v)
+if v ~= game.Players.LocalPlayer then table.insert(v,players) end
+end)
+players.PlayerRemoved:Connect(function(v)
+for i = 1, #players do
+if v == players[i] and v ~= game.Players.LocalPlayer then
+table.remove(v,players)
+end
+end
+end)
+local function Update()
+for i = 1, #players do
+if players[i] then
+local woah = Instance.new("SelectionBox",players[i].Character)
+else
+woah:Destroy()
+end
+end
+end
+game["Run Service"].Stepped:Connect(Update)

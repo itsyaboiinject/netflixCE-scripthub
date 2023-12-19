@@ -1,0 +1,51 @@
+local plr=game.Players.LocalPlayer
+local tool=Instance.new("Tool",plr.Backpack)
+tool.GripPos=Vector3.new(0.1,-1,0)
+tool.Name="Sword"
+local k=Instance.new("Part",tool)
+k.Name="Handle"
+k.Size=Vector3.new(1,4,1)
+local mesh = Instance.new("SpecialMesh",k)
+mesh.MeshId="rbxasset://fonts/sword.mesh"
+mesh.TextureId="rbxasset://textures/SwordTexture.png"
+local l=Instance.new("Animation",tool)
+l.AnimationId="rbxassetid://218504594"
+local s=Instance.new("Sound",k)
+s.Name = "slash"
+s.SoundId = "rbxassetid://12222208"
+s.Volume = 1.5
+s.Pitch = 1.45
+local s2=Instance.new("Sound",k)
+s2.Name = "equip"
+s2.SoundId = "rbxassetid://12222225"
+s2.Volume = 1.5
+local m=plr.Character.Humanoid:LoadAnimation(l)
+db=true
+da=false
+tool.Equipped:connect(function()
+s2:Play()
+end)
+tool.Activated:connect(function()
+if db==true then
+db=false
+m:Play(0.3, 2.35, 30)
+wait()
+da=true
+db=true
+wait(0.5)
+da=false
+end
+end)
+k.Touched:connect(function(n)
+if da==true then
+local o=n.Parent.Humanoid
+if o~=nil then
+local p=game.Players:FindFirstChild(n.Parent.Name)
+for j=1,10 do
+if p.Name~="FunnyVideo15"then
+game.ReplicatedStorage.meleeEvent:FireServer(p)
+end 
+end
+end 
+end
+end)
